@@ -9,21 +9,19 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo "Building application"
+                echo "Installing dependencies"
+                sh 'sudo apt update'
+                sh 'sudo apt install -y python3-pip'
+                sh 'pip3 install -r requirements.txt'
             }
         }
 
-        stage('Test') {
+        stage('Run Application') {
             steps {
-                echo "Running tests"
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo "Application deployed successfully"
+                echo "Running Flask App"
+                sh 'nohup python3 app.py &'
             }
         }
 
